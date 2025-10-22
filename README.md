@@ -268,9 +268,25 @@ npm run dev          # Start development server with hot reload
 npm run build        # Build for production
 npm run preview      # Preview production build locally
 
+# Testing
+npm run test         # Run Vitest unit test suite once
+npm run test:watch   # Re-run tests on file changes
+npm run test:coverage # Generate coverage report with Vitest
+
 # Type Checking
 vue-tsc -b          # TypeScript compilation check
 ```
+
+## ✅ Testing
+
+- Testing framework: [Vitest](https://vitest.dev/) with jsdom environment and Vue Test Utils support
+- Test locations: `tests/` directory containing focused unit tests for utilities and the Vuex game module
+- Coverage: HTML and text reports generated via `npm run test:coverage`
+- What’s covered:
+   - Horse generation logic (`generateHorses`) validating counts, defaults, and metadata
+   - Race simulator physics ensuring deterministic travel percentages
+   - UI utility merger (`cn`) to guarantee Tailwind class conflict resolution
+   - Vuex game module actions for schedule creation, rankings, and exhaustion tracking
 
 ## 🔧 Configuration Options
 
