@@ -9,7 +9,7 @@ const HorseListPanel = defineAsyncComponent(() => import('./HorseListPanel.vue')
 const RaceTrack = defineAsyncComponent(() => import('./RaceTrack.vue'));
 const ProgramResultsPanel = defineAsyncComponent(() => import('./ProgramResultsPanel.vue'));
 const store = useStore();
-const isIdle = computed(() => store.getters['game/isIdle']);
+const isNone = computed(() => store.getters['game/isNone']);
 
 </script>
 
@@ -25,17 +25,17 @@ const isIdle = computed(() => store.getters['game/isIdle']);
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 mt-2">
         <!-- Horse List Panel -->
         <div class="lg:col-span-1">
-          <HorseListPanel v-if="isIdle" />
+          <HorseListPanel v-if="!isNone" />
         </div>
 
         <!-- Race Track -->
         <div class="lg:col-span-1">
-          <RaceTrack v-if="isIdle"/>
+          <RaceTrack v-if="!isNone"/>
         </div>
 
         <!-- Program & Results -->
         <div class="lg:col-span-1">
-          <ProgramResultsPanel v-if="isIdle"/>
+          <ProgramResultsPanel v-if="!isNone"/>
         </div>
       </div>
     </div>

@@ -40,6 +40,10 @@ export const gameModule = {
       return state.raceSchedule?.rounds[state.currentRoundNumber - 1] || null;
     },
 
+    isNone: (state: GameModuleState) => {
+      return state.gameStatus === GameStatuses.NONE;
+    },
+
     isIdle: (state: GameModuleState) => {
       return state.gameStatus === GameStatuses.IDLE;
     },
