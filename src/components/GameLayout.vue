@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import ControlPanel from "@/components/ControlPanel.vue";
-import HorseListPanel from "@/components/HorseListPanel.vue";
-import RaceTrack from "@/components/RaceTrack.vue";
-import ProgramResultsPanel from "@/components/ProgramResultsPanel.vue";
+import { computed, defineAsyncComponent } from "vue";
+import { useStore } from "vuex";
+
+const HorseListPanel = defineAsyncComponent(() => import('./HorseListPanel.vue'));
+const RaceTrack = defineAsyncComponent(() => import('./RaceTrack.vue'));
+const ProgramResultsPanel = defineAsyncComponent(() => import('./ProgramResultsPanel.vue'));
+const store = useStore();
+const isIdle = computed(() => store.getters['game/isIdle']);
+
 </script>
 
 <template>
@@ -17,17 +23,17 @@ import ProgramResultsPanel from "@/components/ProgramResultsPanel.vue";
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 mt-2">
         <!-- Horse List Panel -->
         <div class="lg:col-span-1">
-          <HorseListPanel />
+          <HorseListPanel v-if="isIdle" />
         </div>
 
         <!-- Race Track -->
         <div class="lg:col-span-1">
-          <RaceTrack />
+          <RaceTrack v-if="isIdle"/>
         </div>
 
         <!-- Program & Results -->
         <div class="lg:col-span-1">
-          <ProgramResultsPanel />
+          <ProgramResultsPanel v-if="isIdle"/>
         </div>
       </div>
     </div>
