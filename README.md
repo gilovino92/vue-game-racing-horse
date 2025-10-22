@@ -126,36 +126,29 @@ A dynamic and interactive horse racing simulation game built with Vue 3, TypeScr
 ## 🏗️ Project Architecture
 
 ```
-src/
-├── components/                 # Vue component library
-│   ├── GameLayout.vue         # Main application layout wrapper
-│   ├── ControlPanel.vue       # Race control interface (start/pause/generate)
-│   ├── RaceTrack.vue          # Live racing visualization component
-│   ├── RaceLane.vue           # Individual lane with horse animation
-│   ├── HorseListPanel.vue     # Horse stable and condition display
-│   ├── ProgramResultsPanel.vue # Tabbed race info and results
-│   └── ui/                    # Reusable UI component library
-│       ├── accordion/         # Expandable content sections
-│       ├── badge/             # Status and category indicators
-│       ├── button/            # Interactive button components
-│       ├── card/              # Content container components
-│       ├── icons/             # Custom icon components (Horse, etc.)
-│       ├── scroll-area/       # Custom scrollable content areas
-│       ├── separator/         # Visual content dividers
-│       ├── table/             # Data table components with utilities
-│       └── tabs/              # Tabbed navigation components
-├── stores/                    # Vuex state management
-│   ├── index.ts              # Root store configuration
-│   └── modules/
-│       └── game.ts           # Game state module with full race logic
-├── types/                     # TypeScript type definitions
-│   └── game.ts               # Game entities and state interfaces
-├── utils/                     # Business logic utilities
-│   ├── constants.ts          # Game configuration constants
-│   ├── horse-generator.ts    # Horse creation and randomization
-│   └── race-simulator.ts     # Racing physics and calculations
-└── lib/                      # Shared utility functions
-    └── utils.ts              # Common helper functions and utilities
+├── public/                    # Static assets
+│   └── vite.svg              # Vite logo
+├── src/                      # Source code
+│   ├── App.vue               # Root application component
+│   ├── main.ts               # Application entry point
+│   ├── style.css             # Global styles
+│   ├── assets/               # Static assets (currently empty)
+│   ├── components/           # Vue component library
+│   │   ├── HorseRacingGame/  # Game-specific components
+│   │   └── ui/               # Reusable UI component library
+│   ├── lib/                  # Shared utility functions
+│   ├── stores/               # Vuex state management
+│   │   ├── index.ts          # Root store configuration
+│   │   └── modules/
+│   ├── types/                # TypeScript type definitions
+│   └── utils/                # Business logic utilities
+├── components.json           # Reka UI component configuration
+├── index.html               # HTML entry point
+├── package.json             # Project dependencies and scripts
+├── tsconfig.json            # TypeScript configuration
+├── tsconfig.app.json        # TypeScript app-specific configuration
+├── tsconfig.node.json       # TypeScript Node.js configuration
+└── vite.config.ts           # Vite build configuration
 ```
 
 ## 🔧 Configuration
