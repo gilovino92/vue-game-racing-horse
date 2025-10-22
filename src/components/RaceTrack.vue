@@ -1,71 +1,96 @@
-
 <script setup lang="ts">
-import { computed } from 'vue';
-
+import { computed, } from "vue";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { useStore } from 'vuex';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { useStore } from "vuex";
+import { Card, CardContent } from "@/components/ui/card";
+import RaceLane from "./RaceLane.vue";
+import { TOTAL_ROUNDS } from "@/utils/constants";
 
 const store = useStore();
+const currentRoundData = computed(() => store.getters["game/currentRoundData"]);
 
-const currentRoundData = computed(() => store.getters['game/currentRoundData']);
-const raceTrack = computed(() => store.state.game.raceTrack);
+const isIdle = computed(() => store.getters["game/isIdle"]);
+const isPreparing = computed(() => store.getters["game/isPreparing"]);
+const isRacing = computed(() => store.getters["game/isRacing"]);
+const isPaused = computed(() => store.getters["game/isPaused"]);
+const isCompleted = computed(() => store.getters["game/isCompleted"]);
+
+const handleFinish = (horseId: number) => {
+  store.dispatch("game/handleHorseFinish", horseId);
+};
+const handleExhaustedHorse = (horseId: number) => {
+  store.dispatch("game/handleExhaustedHorse", horseId);
+};
+
+const isShowingTrack = computed(() => {
+  return (
+    currentRoundData.value &&
+    (isRacing.value || isPaused.value || isCompleted.value)
+  );
+});
 </script>
 
 <template>
   <Card>
-    <CardHeader>
-      <CardTitle class="flex items-center justify-between">
-        <span>Race Track</span>
-        <Badge v-if="currentRoundData" variant="outline">
-          Round {{ currentRoundData.roundNumber }} - {{ currentRoundData.distance }}m
-        </Badge>
-      </CardTitle>
-    </CardHeader>
     <CardContent>
-      <div v-if="currentRoundData" class="space-y-4">
-        <!-- Race Lanes -->
-        <div 
-          v-for="(track, index) in raceTrack" 
-          :key="track.horseId"
-          class="relative"
-        >
-          <!-- Lane Background -->
-          <div class="h-12 bg-muted relative mr-10">
-
-            
-            <!-- Horse -->
-            <div 
-              class="absolute top-1 h-10 w-10 rounded-full flex items-center justify-center text-white font-bold transition-all duration-100 ease-linear z-10"
-              :style="{ 
-                left: `${track.position}%`,
-                backgroundColor: currentRoundData.participatingHorses[index]?.color 
-              }"
-            >
-              🐎
-            </div>
-            
-            <!-- Finish Line -->
-            <div class="absolute right-0 top-0 h-full w-1 bg-red-500" />
+      <div v-if="isIdle">
+        <div class="text-center py-6 font-bold">
+          CLICK
+          <div
+            class="inline-flex bg-green-600 text-white px-6 whitespace-nowrap rounded-md text-sm font-medium shadow-xs h-9 py-2"
+          >
+            {{ "Start" }}
           </div>
-          
-          <!-- Horse Info -->
-          <div class="mt-1 flex items-center justify-between text-sm">
-            <span class="font-medium">
-              {{ currentRoundData.participatingHorses[index]?.name }}
-            </span>
-            <Badge variant="secondary" size="sm">
-              {{ Math.round(track.position) }}%
-            </Badge>
-          </div>
+          TO BEGIN THE RACE!
         </div>
       </div>
-      
+      <div
+        v-else-if="isShowingTrack"
+        class="space-y-4 w-full"
+      >
+        <div class="mb-4 text-lg font-bold text-center">
+          <span
+            class="text-gray-800"
+            v-if="!isCompleted"
+            >Round {{ currentRoundData.roundNumber }} -
+            {{ currentRoundData.distance }}m</span
+          >
+          <span
+            class="text-red-600"
+            v-else
+          >
+            {{ "Race Completed" }}
+          </span>
+        </div>
+        <!-- Race Lanes -->
+        <RaceLane
+          v-for="lane in currentRoundData.lanes"
+          :key="lane.laneNumber"
+          :horseId="lane.horseId"
+          :currentRoundData="currentRoundData"
+          :laneNumber="lane.laneNumber"
+          :horsePosition="lane.horsePosition"
+          @horse-finished="handleFinish($event)"
+          @horse-exhausted="handleExhaustedHorse($event)"
+        ></RaceLane>
+      </div>
+
+      <div
+        v-else-if="currentRoundData && isPreparing"
+        class="text-center py-12 text-xl font-bold mb-4"
+      >
+        <span class="text-gray-800"> NEXT: </span>
+        <span class="text-red-600">
+          <span v-if="currentRoundData.roundNumber === TOTAL_ROUNDS">FINAL </span>ROUND {{ currentRoundData.roundNumber }} - {{ currentRoundData.distance }} m
+        </span>
+      </div>
+
       <!-- No Race Active -->
-      <div v-else class="text-center py-12 text-muted-foreground">
+      <div
+        v-else
+        class="text-center py-12 text-muted-foreground"
+      >
         <p>Generate a program and start the race to see horses in action!</p>
       </div>
     </CardContent>

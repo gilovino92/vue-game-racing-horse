@@ -11,7 +11,7 @@ export function calculateHorseTravelPercent(params: TravelParams): number {
   const baseSpeed = (horseCondition / 100) * HORSE_MAX_SPEED; // in meters per second
   const timeInSeconds = INTERVAL_DURATION / 1000; // convert milliseconds to seconds
   const distanceCovered = baseSpeed * timeInSeconds * randFactor; // in meters
-  const travelPercent = (distanceCovered*10 / raceDistance) * 100; // convert to percentage
+  const travelPercent = (distanceCovered / raceDistance) * 100; // convert to percentage
   return travelPercent;
 
 }
