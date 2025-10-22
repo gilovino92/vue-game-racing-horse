@@ -3,7 +3,7 @@ import { computed, ref, watch } from "vue";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { useStore } from "vuex";
-import IconHorse from "./ui/icons/IconHorse.vue";
+import IconHorse from "../ui/icons/IconHorse.vue";
 import { Badge } from "@/components/ui/badge";
 
 const emit = defineEmits<{

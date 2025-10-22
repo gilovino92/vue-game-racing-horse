@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import ControlPanel from "@/components/ControlPanel.vue";
+import ControlPanel from "@/components/HorseRacingGame/ControlPanel.vue";
 import { computed, defineAsyncComponent } from "vue";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { useStore } from "vuex";
 
 const HorseListPanel = defineAsyncComponent(() => import('./HorseListPanel.vue'));
