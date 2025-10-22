@@ -25,7 +25,7 @@ const horse = computed(() => {
 
 watch(
   () => store.state.game.currentRoundNumber,
-  (newVal) => {
+  () => {
     isFinished.value = false;
   }
 );
