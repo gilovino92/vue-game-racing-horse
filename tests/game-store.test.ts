@@ -1,4 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { createStore } from 'vuex'
 import { gameModule } from '@/stores/modules/game'
 import { GameStatuses } from '@/types/game'
